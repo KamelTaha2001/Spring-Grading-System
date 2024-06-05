@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/styles/login_type.css">
+</head>
+<body>
+
+<div class="button-container">
+    <form action="login" method="post">
+        <input type="hidden" id="loginType" name="type" value="">
+        <button type="submit" class="button student" onclick="setLoginType('student')">Login as Student</button>
+        <button type="submit" class="button teacher" onclick="setLoginType('instructor')">Login as Instructor</button>
+        <button type="submit" class="button admin" onclick="setLoginType('admin')">Login as Admin</button>
+    </form>
+
+    <script>
+        function setLoginType(type) {
+            document.getElementById("loginType").value = type;
+        }
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        dialog {
+            width: 300px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Course Details</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Student ID</th>
+        <th>Student Name</th>
+        <th>Grade</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <dialog id="myDialog">
+        <h2>Enter Grade</h2>
+        <input type="number" id="gradeInput" placeholder="Enter grade" />
+        <button onclick="saveGrade()">Save</button>
+        <button onclick="cancelGrade()">Cancel</button>
+    </dialog>
+
+    <script th:inline="javascript">
+        var gradeInput = document.getElementById('gradeInput');
+        var dialog = document.getElementById('myDialog');
+        var sId = 0;
+        var cId = 0;
+
+        function openDialog(sId, cId, initialGrade) {
+            this.sId = sId;
+            this.cId = cId;
+            gradeInput.value = initialGrade;
+            dialog.showModal();
+        }
+
+        function saveGrade() {
+            var grade = gradeInput.value; // Get the value from the input field
+            // Perform saving action (e.g., send data to server)
+            editGrade(grade);
+            console.log("Grade saved:", grade);
+            closeDialog();
+        }
+
+        function editGrade(value) {
+            // Define the URL to submit the form data to
+            var url = '/instructor_dashboard/edit_grade';
+
+            // Define the data to be sent in the POST request (if needed)
+            var data = {
+                // Add any form data here
+                studentId: sId,
+                courseId: cId,
+                grade: value
+            };
+
+            // Define the fetch options
+            var options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // Set the content type as JSON if sending JSON data
+                },
+                body: JSON.stringify(data) // Convert the data to JSON format
+            };
+
+            // Send the POST request using fetch API
+            fetch(url, options)
+            .then(response => {
+                // Check if the response is successful (status code in the range 200-299)
+                if (response.ok) {
+                    // Parse the response body as text
+                    return response.text();
+                } else {
+                    // Handle error responses
+                    console.error('Error:', response.statusText);
+                }
+            })
+            .then(message => {
+                // Print the message to the console
+                console.log(message);
+                window.location.reload(true);
+            })
+            .catch(error => {
+                // Handle network errors
+                console.error('Error:', error);
+            });
+        }
+
+        function cancelGrade() {
+            closeDialog();
+        }
+
+        function closeDialog() {
+            gradeInput.value ="";
+            dialog.close();
+        }
+    </script>
+
+    <tr th:each="grade : ${grades}">
+        <td th:text="${grade.getCourseName()}"></td>
+        <td th:text="${grade.getStudentName()}"></td>
+        <td th:text="${grade.getDto().getGrade()}"></td>
+        <td><button th:onclick="'openDialog(\'' + ${grade.getDto().getStudentId()}
+        + '\', \'' + ${courseId} + '\', \''
+         + ${grade.getDto().getGrade()} + '\');'"
+                    class="edit-button">Edit</button></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

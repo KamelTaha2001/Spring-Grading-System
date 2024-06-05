@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head xmlns:th="http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Grades</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .student-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<form th:action="@{/logout}">
+    <button type="submit" class="logout-button">Logout</button>
+</form>
+<h2>Course Grades</h2>
+
+<table>
+    <tr>
+        <th>Course Name</th>
+        <th>Grade</th>
+    </tr>
+    <tr th:each="grade : ${grades}">
+        <td th:text="${grade.getCourseName()}"></td>
+        <td th:text="${grade.getDto().getGrade()}"></td>
+    </tr>
+    <!-- Add more rows as needed -->
+</table>
+
+<h1 class="student-name">Average: <span th:text="${average}"></span></h1>
+</body>
+</html>

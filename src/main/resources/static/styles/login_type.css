@@ -1,0 +1,46 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button {
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.student {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.teacher {
+    background-color: #008CBA;
+    color: white;
+}
+
+.admin {
+    background-color: #f44336;
+    color: white;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
